@@ -1,0 +1,66 @@
+CREATE FUNCTION findMax() RETURNS int(11)
+BEGIN
+declare i INT;
+select max(OrderDetails.colkey) from OrderDetails into i;
+RETURN i+1;
+END
+
+CREATE checkOrderID() RETURNS char(5)
+BEGIN
+DECLARE res CHAR(5);
+DECLARE chars CHAR(26);
+DECLARE num CHAR(26);
+SET chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+SET num = '0123456789';
+SET res = substring(chars,RAND()*(26-1+1)+1,1);
+SET res = concat(res,substring(chars,RAND()*(26-1+1)+1,1));
+SET res = concat(res,substring(num,RAND()*(10-1+1)+1,1));
+SET res = concat(res,substring(num,RAND()*(10-1+1)+1,1));
+SET res = concat(res,substring(num,RAND()*(10-1+1)+1,1));
+while char_length(res)!=5 do
+	SET res = substring(chars,RAND()*(26-1+1)+1,1);
+	SET res = concat(res,substring(chars,RAND()*(26-1+1)+1,1));
+	SET res = concat(res,substring(num,RAND()*(10-1+1)+1,1));
+	SET res = concat(res,substring(num,RAND()*(10-1+1)+1,1));
+	SET res = concat(res,substring(num,RAND()*(10-1+1)+1,1));
+end while;
+RETURN res;
+END
+
+CREATE FUNCTION getOrderID() RETURNS char(5) 
+BEGIN
+	declare v int;
+        declare nofcolumns int;
+        declare i int;
+        declare c char(5);
+        declare ckey char(5);
+        set ckey = checkOrderID();
+        set i = 1;
+        select distinct count(OrderDetails.colkey) from OrderDetails into v;
+        set nofcolumns=v;
+        while v > 0 do
+            select OrderDetails.OrderID from OrderDetails where OrderDetails.colkey = i into c ;
+            if 	ckey= c then 
+		set ckey=checkOrderID();
+                set i=0;
+                set v= nofcolumns+1;
+            end if;
+            set i = i+1;
+            set v=v-1;
+		end while;
+        return ckey;
+END
+
+CREATE FUNCTION getVat(amt int(10)) RETURNS float
+BEGIN
+DECLARE tax FLOAT;
+SELECT 0.05*amt into tax;
+RETURN tax;
+END
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `getCourierID`(location varchar(45)) RETURNS varchar(45) CHARSET utf8
+BEGIN
+	DECLARE res varchar(45);
+	SELECT CourierDetails.Emp_ID from CourierDetails where CourierDetails.Location=location into res;
+RETURN res;
+END
