@@ -1,0 +1,235 @@
+create database FoodOrdering;
+use FoodOrdering;
+show tables;
+#Table Schema
+create table MainCourse(Food_ID char(10) primary key,Item char(30),Price int);
+create table Desserts(Food_ID char(10) primary key,Item char(30),Price int);
+create table CustomerDetails(User_ID char(10) primary key not null unique,
+	First_name char(45),
+    Last_name char(45),
+	Email char(100),
+    PhoneNumber char(20),
+    Location varchar(45),
+    Password varchar(30),
+    OrderID char(5)
+);
+
+create table OrderDetails(colkey int,OrderID char(5) primary key not null,
+	Date date,Time time,
+    totalAmount float,vat float,	
+    estimated_DT int,actual_DT int,
+    OrderComplete boolean,
+    courierID char(10)
+);
+
+insert into OrderDetails values(1,getOrderID(),null,null,null,null,null,null,true,null);
+insert into OrderDetails values(findMax(),getOrderID(),"2020-08-12","24:00:00",24,getVat(24),20,15,false,"MS234");
+
+create table Location(Area varchar(45));
+
+create table CourierDetails(
+	Emp_ID char(10) primary key not null unique,
+    First_name char(45),
+    Last_name char(45),
+	Email char(100),
+    PhoneNumber char(20),
+    Location char(30),
+    vehicleModel char(45),
+    registerNo char(20)
+);
+
+create table ItemsOrdered(
+	ItemID varchar(35) primary key not null,
+    OrderID char(5),
+    Item varchar(30),
+    Quantity int,
+    Price float
+);
+
+create table Comments(
+	OrderID char(5),
+    comment_text varchar(300),
+    isComplaint boolean,
+    isPraise boolean
+);
+
+#Inserting
+
+insert into location values("Abu Hail");
+insert into location values("Al Awir First");
+insert into location values("Al Awir Second");
+insert into location values("Al Bada");
+insert into location values("Al Baraha");
+insert into location values("Al Barsha First");
+insert into location values("Al Barsha Second");
+insert into location values("Al Barsha South First");
+insert into location values("Al Barsha South Second");
+insert into location values("Al Barsha South Third");
+insert into location values("Al Barsha Third");
+insert into location values("Al Buteen");
+insert into location values("Al Dhagaya");
+insert into location values("Al Garhoud");
+insert into location values("Al Guoz Fourth");
+insert into location values("Al Hamriya, Dubai");
+insert into location values("Al Hamriya Port");
+insert into location values("Al Hudaiba");
+insert into location values("Al Jaddaf");
+insert into location values("Al Jafiliya");
+insert into location values("Al Karama");
+INSERT INTO LOCATION VALUES("Al Khabisi");
+INSERT INTO LOCATION VALUES("Al Khwaneej First");
+INSERT INTO LOCATION VALUES("Al Khwaneej Second");
+INSERT INTO LOCATION VALUES("Al Kifaf");
+INSERT INTO LOCATION VALUES("Al Mamzar");
+INSERT INTO LOCATION VALUES("Al Manara");
+INSERT INTO LOCATION VALUES("Al Mankhool");
+INSERT INTO LOCATION VALUES("Al Merkad");
+INSERT INTO LOCATION VALUES("Al Mina");
+INSERT INTO LOCATION VALUES("Al Mizhar First");
+INSERT INTO LOCATION VALUES("Al Mizhar Second");
+INSERT INTO LOCATION VALUES("Al Muraqqabat");
+INSERT INTO LOCATION VALUES("Al Murar");
+INSERT INTO LOCATION VALUES("Al Mushrif");
+INSERT INTO LOCATION VALUES("Al Muteena");
+INSERT INTO LOCATION VALUES("Al Nahda First");
+INSERT INTO LOCATION VALUES("Al Nahda Second");
+INSERT INTO LOCATION VALUES("Al Nasr");
+INSERT INTO LOCATION VALUES("Al Quoz First");
+INSERT INTO LOCATION VALUES("Al Quoz Industrial First");
+insert into location values("Al Quoz Industrial Fourth");
+insert into location values("Al Quoz Industrial Second");
+insert into location values("Al Quoz Industrial Third");
+insert into location values("Al Quoz Second");
+insert into location values("Al Quoz Third");
+insert into location values("Al Qusais First");
+insert into location values("Al Qusais Industrial Fifth");
+insert into location values("Al Qusais Industrial First");
+insert into location values("Al Qusais Industrial Fourth");
+insert into location values("Al Qusais Industrial Second");
+insert into location values("Al Qusais Industrial Third");
+insert into location values("Al Qusais Second");
+insert into location values("Al Qusais Third");
+insert into location values("Al Raffa");
+insert into location values("Al Ras");
+insert into location values("Al Rashidiya");
+insert into location values("Al Rigga");
+insert into location values("Al Sabkha");
+insert into location values("Al Safa First");
+insert into location values("Al Safa Second");
+insert into location values("Al Safouh First");
+insert into location values("Al Safouh Second");
+insert into location values("Al Satwa");
+insert into location values("Al Shindagha");
+insert into location values("Al Souq Al Kabeer");
+insert into location values("Al Twar First");
+insert into location values("Al Twar Second");
+insert into location values("Al Twar Third");
+insert into location values("Al Warqa'a Fifth");
+insert into location values("Al Warqa'a First");
+insert into location values("Al Warqa'a Fourth");
+insert into location values("Al Warqa'a Second");
+insert into location values("Al Warqa'a Third");
+insert into location values("Al Wasl");
+insert into location values("Al Waheda");
+insert into location values("Ayal Nasir");
+insert into location values("Aleyas");
+insert into location values("Business Bay");
+insert into location values("Bu Kadra");
+insert into location values("Deira");
+insert into Location values("Downtown Dubai");
+insert into Location values("Dubai Investment Park First");
+insert into Location values("Dubai Investment Park Second");
+insert into Location values("Emirates Hill First");
+insert into Location values("Emirates Hill Second");
+insert into Location values("Emirates Hill Third");
+insert into Location values("Hatta");
+insert into Location values("Hor Al Anz");
+insert into Location values("Hor Al Anz East");
+insert into Location values("Jebel Ali 1");
+insert into Location values("Jebel Ali 2");
+insert into Location values("Jebel Ali Industrial");
+insert into Location values("Jebel Ali Palm");
+insert into Location values("Jumeira First");
+insert into Location values("Palm Jumeira");
+insert into Location values("Jumeira Second");
+insert into Location values("Jumeira Third");
+insert into Location values("Marsa Dubai");
+insert into Location values("Mirdif");
+insert into Location values("Muhaisanah Fourth");
+insert into Location values("Muhaisanah Second");
+insert into Location values("Muhaisanah Third");
+insert into Location values("Muhaisnah First");
+insert into Location values("Nad Al Hammar");
+insert into Location values("Nadd Al Shiba Fourth");
+insert into Location values("Nadd Al Shiba Second");
+insert into Location values("Nadd Al Shiba Third");
+insert into Location values("Nad Shamma");
+insert into Location values("Naif");
+insert into Location values("Port Saeed");
+insert into Location values("Arabian Ranches");
+insert into Location values("Oud Al Muteena Third");
+insert into Location values("Ras Al Khor");
+insert into Location values("Ras Al Khor Industrial First");
+insert into Location values("Ras Al Khor Industrial Second");
+insert into Location values("Ras Al Khor Industrial Third");
+insert into Location values("Rigga Al Buteen");
+insert into Location values("Trade Centre 1");
+insert into Location values("Trade Centre 2");
+insert into Location values("Umm Al Sheif");
+insert into Location values("Umm Hurair First");
+insert into Location values("Umm Hurair Second");
+insert into Location values("Umm Ramool");
+insert into Location values("Umm Suqeim First");
+insert into Location values("Umm Suqeim Second");
+insert into Location values("Umm Suqeim Third");
+insert into Location values("Wadi Alamardi");
+insert into Location values("Warsan First");
+insert into Location values("Warsan Second");
+insert into Location values("Za-abeel First");
+insert into Location values("Za-abeel Second");
+
+insert into MainCourse values("MC1","Cheese Balls",6);
+insert into MainCourse values("MC2","Fried Chicken",4);
+insert into MainCourse values("MC3","Paneer Tikka",5);
+insert into MainCourse values("MC4","Chicken Biriyani",18);
+insert into MainCourse values("MC5","Veg Biriyani",15);
+insert into MainCourse values("MC6","Noodles",17);
+insert into MainCourse values("MC7","Masala Dosa",13);
+insert into MainCourse values("MC8","Pasta Bolognese",10);
+insert into MainCourse values("MC9","Chicken Roll",6);
+insert into MainCourse values("MC10","Pizza",20);
+insert into MainCourse values("MC11","Club Sandwich",11);
+insert into MainCourse values("MC12","Burger",8);
+
+insert into Desserts values("DS1","Gulab Jamun",5);
+insert into Desserts values("DS2","Brownie",6);
+insert into Desserts values("DS3","Ice Cream Fudge",6);
+insert into Desserts values("DS4","Falooda",13);
+insert into Desserts values("DS5","Pomegranate Juice",11);
+insert into Desserts values("DS6","Orange Juice",11);
+insert into Desserts values("DS7","Apple Juice",11);
+
+select TRUNCATE(getVat(8),2);#gets vat
+select checkOrderID();
+select getOrderID();
+select getCourierID('Al Qusais First');
+select * from Location;
+select * from MainCourse;
+select * from Desserts;
+select * from CourierDetails;
+select * from CustomerDetails;
+select * from OrderDetails;
+select * from ItemsOrdered;
+select * from Comments;
+select PhoneNumber from customerdetails where PhoneNumber="0";
+update CustomerDetails set Password="password#123" where User_ID='GS461';
+update CustomerDetails set Email="name@gmail.com" where Email="gokulsudheesh1@gmail.com";
+update orderdetails set OrderComplete=true where OrderID='NK491';
+
+#Dont run these queries
+TRUNCATE location;
+TRUNCATE courierdetails;
+TRUNCATE customerdetails;#deletes all values from table
+TRUNCATE orderdetails;#deletes all values from table
+TRUNCATE ItemsOrdered;
+TRUNCATE Comments;
