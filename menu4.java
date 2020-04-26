@@ -64,6 +64,7 @@ public class menu4 {
         for (int i=0;i<menu2.arr1.size();i++){
             ArrayList<String> data = new ArrayList<>();
             data.add(OrderID+id.getItems().get(i));
+            data.add(OrderID);
             data.add(id.getItems().get(i));
             data.add(id.getQuantity().get(i));
             data.add(id.getPrice().get(i));
